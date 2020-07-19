@@ -7,38 +7,44 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+  <!-- Icons-->
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
     integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
-  <!--My CSS -->  
-  <link rel="stylesheet" href="../css/Styles.css">
 
   <!-- JQuery import-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <!--My CSS -->
+  <link rel="stylesheet" href="css/Styles.css">
+
+ 
 </head>
 
-<body id="home" data-spy="scroll" data-target=".navbar" data-offset="100">
+  
 
-  <!-- navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand order-1 mr-0" target="_blank"></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-item " href="#home">Home <span class="sr-only">(current)</span></a>
-          <a class="nav-item " href="#About">About</a>
-          <a class="nav-item " href="#Photos">Photos</a>
-          <a class="nav-item " href="#Books">Books</a>
-          <a class="nav-item " href="#Contact">Contact</a>
+<body id="home" data-spy="scroll" data-target=".navbar" data-offset="100">
+  <header class="main-header" id="main-header">
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container">
+        <a class="navbar-brand order-1 mr-0" target="_blank"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-item " href="#home">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item " href="#About">About</a>
+            <a class="nav-item " href="#Photos">Photos</a>
+            <a class="nav-item " href="#" onclick="openTab('Books')">Books</a>
+            <a class="nav-item " href="#Contact">Contact</a>
+          </div>
         </div>
       </div>
-    </div>
-  </nav><!-- /navbar -->
-
+    </nav><!-- /navbar -->
+  </header>
 
   <!-- jumbotron -->
   <div class="jumbotron jumbotron-fluid  text-white">
@@ -54,15 +60,8 @@
       <div class="col-lg">
         <h3 id="About" class="mb-4">About Keane</h3>
 
-        <p>Hi, thanks for stopping by! Here you'll find a little bit of everything from my life from personal interests,
-          photos, book and music recommendations, and some of my work portfolio. </p>
-        <p>Here, I'll tell you a little abaout myself. I was born in Des Moines, Iowa to immigrant parents from Dublin,
-          Ireland.
-          We moved to a suburb of Chicago a few years after and a few years after that we moved to what I call my home
-          town of Louisville, KY.
-          I studied physics at the University of Kentucky for my undergraduate degree and immediately went to get a
-          master's degree of environmental sciene,
-          with a concentration on Energy, at Indiana University.</p>
+        <p>Hi, thanks for stopping by! Here you'll find a little bit of everything from my life from personal interests, photos, book and music recommendations, and some of my work portfolio. </p>
+        <p>Here, I'll tell you a little about myself. I was born in Des Moines, Iowa to immigrant parents from Dublin, Ireland. We moved to a suburb of Chicago a few years after and a few years after that we moved to what I call my home town of Louisville, KY. I studied physics at the University of Kentucky for my undergraduate degree and immediately went to get a master's degree of environmental science, with a concentration on Energy, at Indiana University.</p>
         <p>I am extremely passionate about sustainable development and particularly renewable energy. Following graduate
           school, I took a research position at the US Environmental Protection Agency and worked on a project focused
           on
@@ -92,13 +91,13 @@
           </ol>
           <div class="carousel-inner">
             <div class="carousel-item active">
-              <img class="d-block w-100" src="../img/IMG_4002.jpg" alt="Cinque Terre">
+              <img class="d-block w-100" src="img/IMG_4002.jpg" alt="Cinque Terre">
             </div>
             <div class="carousel-item">
-              <img class="d-block w-100" src="../img/IMG_4075.jpg" alt="Keane and Elizabeth in Italy">
+              <img class="d-block w-100" src="img/IMG_4075.jpg" alt="Keane and Elizabeth in Italy">
             </div>
             <div class="carousel-item">
-              <img class="d-block w-100" src="../img/IMG_4142.jpg" alt="Florence, Italy - Duomo">
+              <img class="d-block w-100" src="img/IMG_4142.jpg" alt="Florence, Italy - Duomo">
             </div>
           </div>
           <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -115,12 +114,12 @@
     </div><!-- /about -->
 
     <!-- Books -->
-    <h1 id="Books" class="display-4 text-center my-5 text-muted">Books</h1>
+    <h1 id="Books" class="display-4 text-center my-5">Books</h1>
     <h2 id="Genre"> Nonfiction</h2>
     <div class="row">
       <div class="col-md-6 col-lg-4">
-        <div class="card mb-3">
-          <img class="card-img-top" src="../img/OPW.jpg" alt="Oil Power and War">
+        <div class="card mb-3 h-100">
+          <img class="card-img-top" src="img/OPW.jpg" alt="Oil Power and War">
           <div class="card-body">
             <h4 class="card-title">Oil Power and War</h4>
             <p class="card-text">With brutal clarity, Oil, Power, and War exposes the heavy hand oil has had in all of
@@ -131,8 +130,8 @@
       </div>
 
       <div class="col-md-6 col-lg-4">
-        <div class="card mb-3">
-          <img class="card-img-top" src="../img/EC.jpg" alt="Energy and Civilization">
+        <div class="card mb-3 h-100">
+          <img class="card-img-top" src="img/EC.jpg" alt="Energy and Civilization">
           <div class="card-body">
             <h4 class="card-title">Energy and Civilization: A History</h4>
             <p class="card-text">"A comprehensive account of how energy has shaped society throughout history, from
@@ -142,8 +141,8 @@
       </div>
 
       <div class="col-md-6 col-lg-4">
-        <div class="card mb-3">
-          <img class="card-img-top" src="../img/Body.jpg" alt="Body">
+        <div class="card mb-3 h-100">
+          <img class="card-img-top" src="img/Body.jpg" alt="Body">
           <div class="card-body">
             <h4 class="card-title">The Body: A Guide for Occupants</h4>
             <p class="card-text">An engaging exploration of the human body, packed with interesting trivia about human
@@ -151,10 +150,13 @@
           </div>
         </div>
       </div>
-
+    </div>
+      
+    <h2 class="mt-5"id="Genre"> Fiction</h2>  
+    <div class="row mt-4"> 
       <div class="col-md-6 col-lg-4">
-        <div class="card mb-3">
-          <img class="card-img-top" src="../img/BK.jpg" alt="Brothers Karamazov">
+        <div class="card mb-3 h-100">
+          <img class="card-img-top" src="img/BK.jpg" alt="Brothers Karamazov">
           <div class="card-body">
             <h4 class="card-title">The Brothers Karamazov</h4>
             <p class="card-text">The Brothers Karamasov is a murder mystery, a courtroom drama, and an exploration of
@@ -168,8 +170,8 @@
       </div>
 
       <div class="col-md-6 col-lg-4">
-        <div class="card mb-3">
-          <img class="card-img-top" src="../img/CC.jpg" alt="Cat's Cradle">
+        <div class="card mb-3 h-100">
+          <img class="card-img-top" src="img/CC.jpg" alt="Cat's Cradle">
           <div class="card-body">
             <h4 class="card-title">Cat's Cradle</h4>
             <p class="card-text">Cat’s Cradle is Kurt Vonnegut’s satirical commentary on modern man and his madness. An
@@ -182,8 +184,8 @@
       </div>
 
       <div class="col-md-6 col-lg-4">
-        <div class="card">
-          <img class="card-img-top" src="../img/1984.jpg" alt="1984">
+        <div class="card mb-3 h-100">
+          <img class="card-img-top" src="img/1984.jpg" alt="1984">
           <div class="card-body">
             <h4 class="card-title">1984</h4>
             <p class="card-text">Winston Smith toes the Party line, rewriting history to satisfy the demands of the
@@ -196,7 +198,8 @@
           </div>
         </div>
       </div>
-    </div><!-- /speakers -->
+    </div>
+    <!-- /Books -->
 
     <!--Section: Contact v.2-->
     <section class="mb-4">
@@ -281,11 +284,11 @@
               <p></p>
             </li>
 
-            <li><i class="fas fa-phone mt-4 fa-2x"></i>
+            <li><a class="mt-4">Phone:</a>
               <p>+01 502 599 1145</p>
             </li>
 
-            <li><i class="fas fa-envelope mt-4 fa-2x"></i>
+            <li><a class="mt-4">Email:</a>
               <p>keanegleeson@gmail.com</p>
             </li>
           </ul>
@@ -298,10 +301,6 @@
     <!--Section: Contact v.2-->
 
 
-    <!-- footer -->
-    <div class="row py-3">
-
-    </div><!-- /footer -->
 
   </div><!-- /.container -->
 
@@ -321,11 +320,19 @@
     crossorigin="anonymous"></script>
 
   <!--Custom scripts-->
-  <script src="../js/form_checker.js"></script>
-  </script>
+  <script src="js/form_checker.js"></script>
+  
   <footer class="footer">
     <div class="container">
-      <span class="text-white">Footer Content</span>
+      <div class="col-lg">
+    		<h4>Follow Me Elsewhere</h4>
+            <ul class="social-network social-circle">
+             <li><a href="https://www.facebook.com/keane.gleeson" target="_blank" class="icoFacebook" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+             <li><a href="https://www.instagram.com/keanegleeson/" target="_blank" class="icoInstagram" title="Instagram"><i class="fa fa-instagram"></i></a></li>
+             <li><a href="https://www.linkedin.com/in/keanegleeson/" target="_blank" class="icoLinkedin" title="Linkedin"><i class="fa fa-linkedin"></i></a></li>
+             <li><a href="https://github.com/keanegleeson" target="_blank" class="icoGithub" title="Github"><i class="fa fa-github"></i></a></li>
+            </ul>				
+		</div>
     </div>
   </footer>
 </body>
