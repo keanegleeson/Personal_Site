@@ -4,5 +4,8 @@
 
 - Features chosen to include:
   <li>Photo Carousel</li>
+  <li>Import bootstrap </li>
+  <li>Hamburger Menu </li>
+  <li>Form that takes in fields of information and validates input </li>
 
 - As far as I know, there should me no special instructions to run this project other than previewing the code or simply visiting keanegleeson.com!
