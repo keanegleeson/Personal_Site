@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Keane Gleeson</title>
+
+    
+    
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Icons-->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+        integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+
+    <!-- JQuery import-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!--My CSS -->
+    <link rel="stylesheet" href="css/EIA_Styles.css">
+
+    <!-- chart.js import -->
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3"></script>
+    <!-- hammerjs is not working currently for some reason :( -->
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.7"></script>
+
+
+
+    
+    <script src="js/eia.js"></script>
+
+</head>
+
+
+
+<body id="home" data-spy="scroll" data-target=".navbar" data-offset="100">
+    <header class="main-header" id="main-header">
+        <!-- navbar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand order-1 mr-0" target="_blank"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-item " href="index.html#home">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-item " href="index.html#About">About</a>
+                        <a class="nav-item " href="index.html#Photos">Photos</a>
+                        <a class="nav-item " href="index.html#Books" onclick="openTab('Books')">Books</a>
+                        <a class="nav-item " href="#eia.html">EIA Project</a>
+                        <a class="nav-item " href="index.html#Contact">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </nav><!-- /navbar -->
+    </header>
+
+    <div class="container pt-4">
+        <!-- dropdown menus -->
+        <div class="row">
+            <!-- time unit dropdown -->
+            <div class="col-md-6 col-xl-3 mb-4">
+                <div class="dropdown">
+                    <button class="dropbtn">Select a Time Unit</button>
+                    <div class="dropdown-content">
+                        
+                        <select onchange="handleOnChange()" id="time">
+                            <option value="Hourly">Hourly</option>
+                            <option value="Monthly">Monthly</option>
+                            <option value="Annual">Annual</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+<!-- Region Dropdown -->
+            <div class="col-md-10 col-m-3 mb-4">
+                <div class="dropdown">
+                    <button class="dropbtn">Select a Region</button>
+                    <div class="dropdown-content">
+                        <select onchange="handleOnChange()" id="region">
+                            <!-- script in head populates this dropdown -->
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="EIA" class="row">
+            <div class="col-lg">
+                <h1>Demand for California</h1>
+                <canvas id="chart" width="400" height="400" padding-bottom="100"></canvas>
+            </div>
+        </div>
+        <!-- End of chart -->
+
+    </div>
+    <!-- /.container -->
+    <!-- start dataset filter -->
+
+
+
+
+    <!-- Optional JavaScript from bootstrap template -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+
+    <!--Custom scripts-->
+    
+
+    <!-- <div class="push"></div> -->
+    <footer class="footer">
+        <div class="container">
+            <div class="col-lg">
+                <h4>Follow Me Elsewhere</h4>
+                <ul class="social-network social-circle">
+                    <li><a href="https://www.facebook.com/keane.gleeson" target="_blank" class="icoFacebook"
+                            title="Facebook"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="https://www.instagram.com/keanegleeson/" target="_blank" class="icoInstagram"
+                            title="Instagram"><i class="fa fa-instagram"></i></a></li>
+                    <li><a href="https://www.linkedin.com/in/keanegleeson/" target="_blank" class="icoLinkedin"
+                            title="Linkedin"><i class="fa fa-linkedin"></i></a></li>
+                    <li><a href="https://github.com/keanegleeson" target="_blank" class="icoGithub" title="Github"><i
+                                class="fa fa-github"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <script>
+         var region = document.getElementById("region");
+    </script>
+</body>
+
+</html>
