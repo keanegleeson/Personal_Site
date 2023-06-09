@@ -1,3 +1,7 @@
+.body{
+    background-color: #D6d6d6 ;
+}
+
 .container {
     display: flex;
     justify-content: center;
