@@ -1,6 +1,6 @@
    //require('dotenv').config
 
-   const token = process.env.api_token;
+   //const token = process.env.api_token;
     
     // Fetch Rapid ELO
     fetch('https://lichess.org/api/account', {
