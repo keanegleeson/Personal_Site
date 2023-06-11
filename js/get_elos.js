@@ -1,4 +1,4 @@
-   require('dotenv').config
+   //require('dotenv').config
 
    const token = process.env.api_token;
     
