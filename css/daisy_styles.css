@@ -2,130 +2,133 @@ body * {
   box-sizing: border-box;
 }
 
-$pink: #ff7675;
-$purp: #9b59b6;
-$blue: #f5f6fa;
-$anton: "Anton", sans-serif;
-
 .container {
   width: 100%;
   height: 100vh;
-  background-color: $pink;
+  background-color: #ff7675;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.cp-nav {
-  position: fixed;
+.cp-nav__button {
+  background-color: #9b59b6;
+  border: 0px;
+  appearence: none;
+  border-radius: 100%;
+  height: 220px;
+  width: 220px;
+  position: relative;
+  color: white;
+  font-size: 3em;
+  z-index: 10;
+  text-transform: uppercase;
+  outline: 0;
+  font-family: 'Anton', sans-serif;
+  letter-spacing: 0.1em;
+  line-height: 0.7em;
+  cursor: pointer;
+}
 
-  &__button {
-    background-color: $purp;
-    border: 0px;
-    appearence: none;
-    border-radius: 100%;
-    height: 220px;
-    width: 220px;
-    position: relative;
-    color: white;
-    font-size: 3em;
-    z-index: 10;
-    text-transform: uppercase;
-    outline: 0;
-    font-family: $anton;
-    letter-spacing: 0.1em;
-    line-height: 0.7em;
-    cursor: pointer;
+.cp-nav__button span {
+  display: inline-block;
+  position: relative;
+  transform: rotateY(0deg);
+  transition: all 0.55s ease;
+  line-height: 0.2em;
+  transform-origin: center center;
+}
 
-    span {
-      display: inline-block;
-      position: relative;
-      transform: rotateY(0deg);
-      transition: all 0.55s ease;
-      line-height: 0.2em;
-      transform-origin: center center;
-    }
+.cp-nav__button:hover span {
+  transform: rotateY(360deg);
+}
 
-    &:hover {
-      span {
-        transform: rotateY(360deg);
-      }
-    }
-  }
+.cp-nav nav {
+  visibility: visible;
+  position: absolute;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
 
-  nav {
-    visibility: visible;
-    position: absolute;
-    z-index: 5;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
+.cp-nav nav ul {
+  position: inherit;
+  width: 100%;
+  height: 100%;
+  width: inherit;
+  height: inherit;
+  margin: 0;
+  padding: 0;
+  transform: scale(0.9);
+  transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
 
-    ul {
-      position: inherit;
-      width: 100%;
-      height: 100%;
-      width: inherit;
-      height: inherit;
-      margin: 0;
-      padding: 0;
-      transform: scale(0.9);
-      transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-    }
+.cp-nav nav li {
+  display: inline-block;
+  position: absolute;
+  transform-origin: 157% 157%;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-    li {
-      display: inline-block;
-      position: absolute;
-      transform-origin: 157% 157%;
-      border-radius: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+.cp-nav nav li:nth-of-type(1) {
+  transform: rotate(45deg);
+}
 
-      @for $i from 1 through 8 {
-        $maths: (360 / 8) * $i;
+.cp-nav nav li:nth-of-type(2) {
+  transform: rotate(90deg);
+}
 
-        &:nth-of-type(#{$i}) {
-          transform: rotate(#{$maths}deg);
+.cp-nav nav li:nth-of-type(3) {
+  transform: rotate(135deg);
+}
 
-          a {
-            transform: rotate(-#{$maths}deg);
-          }
-        }
-      }
+.cp-nav nav li:nth-of-type(4) {
+  transform: rotate(180deg);
+}
 
-      a {
-        position: relative;
-        display: inline-block;
-        color: $pink;
-        font-family: $anton;
-        background-color: $blue;
-        text-decoration: none;
-        border-radius: 100%;
-        height: 70px;
-        width: 70px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: all 0.45s ease;
-        font-size: 1.6em;
+.cp-nav nav li:nth-of-type(5) {
+  transform: rotate(225deg);
+}
 
-        &:hover {
-          background-color: $purp;
-          color: $blue;
-        }
-      }
-    }
-  }
+.cp-nav nav li:nth-of-type(6) {
+  transform: rotate(270deg);
+}
 
-  &.is-active {
-    nav {
-      visibility: visible;
-    }
+.cp-nav nav li:nth-of-type(7) {
+  transform: rotate(315deg);
+}
 
-    ul {
-      transform: scale(1.3);
-    }
-  }
+.cp-nav nav li:nth-of-type(8) {
+  transform: rotate(360deg);
+}
+
+.cp-nav nav li a {
+  position: relative;
+  display: inline-block;
+  color: #ff7675;
+  font-family: 'Anton', sans-serif;
+  background-color: #f5f6fa;
+  text-decoration: none;
+  border-radius: 100%;
+  height: 70px;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.45s ease;
+  font-size: 1.6em;
+}
+
+.cp-nav nav li a:hover {
+  background-color: #9b59b6;
+  color: #f5f6fa;
+}
+
+.cp-nav.is-active nav {
+  visibility: visible;
 }

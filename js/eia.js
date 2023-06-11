@@ -27,7 +27,7 @@ let getEIA = async () => {
     const response = await fetch(url);
     const api_data = await response.json();
     const series = api_data.series[0].data;
-    // console.log(series);
+    console.log(series);
     const rows = series?.length; //? optional chaining - checks if series exists
     // series ? series.length: null; 
     // const table = [];
