@@ -1,228 +1,131 @@
-.body{
-    background-color: #D6d6d6 ;
+body * {
+  box-sizing: border-box;
 }
+
+$pink: #ff7675;
+$purp: #9b59b6;
+$blue: #f5f6fa;
+$anton: "Anton", sans-serif;
 
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .daisy {
+  width: 100%;
+  height: 100vh;
+  background-color: $pink;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cp-nav {
+  position: fixed;
+
+  &__button {
+    background-color: $purp;
+    border: 0px;
+    appearence: none;
+    border-radius: 100%;
+    height: 220px;
+    width: 220px;
     position: relative;
-    width: 200px;
-    height: 350px;
+    color: white;
+    font-size: 3em;
+    z-index: 10;
+    text-transform: uppercase;
+    outline: 0;
+    font-family: $anton;
+    letter-spacing: 0.1em;
+    line-height: 0.7em;
+    cursor: pointer;
+
+    span {
+      display: inline-block;
+      position: relative;
+      transform: rotateY(0deg);
+      transition: all 0.55s ease;
+      line-height: 0.2em;
+      transform-origin: center center;
+    }
+
+    &:hover {
+      span {
+        transform: rotateY(360deg);
+      }
+    }
   }
-  
-  .stem {
+
+  nav {
+    visibility: visible;
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 10px;
-    height: 150px;
-    background-color: green;
-    transform: translateX(-50%);
-  }
-  
-  .petals-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    height: 200px;
-  }
-  
-  .petal {
-    position: absolute;
+    z-index: 5;
+    width: 100%;
+    height: 100%;
     top: 0;
     left: 0;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background-color: yellow;
-    transition: transform 0.3s;
-  }
-  
-  .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-  }
-  
-  .prev-btn,
-  .next-btn {
-    margin: 0 5px;
-  }
-  
-  .prev-btn:disabled,
-  .next-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
 
-  
-  nav a,
-  nav a:after,
-  nav a:before {
-    transition: all .5s;
-    color: #fff;
-    display: block;
-    padding: 15px;
-  }
-  nav a:hover {
-    color: #D61800;
-  }
-  
-  
-  /* stroke */
-  nav.stroke a,
-  nav.fill a {
-    position: relative;
-  }
-  nav.stroke a:after,
-  nav.fill a:after {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    width: 0%;
-    content: '.';
-    color: transparent;
-    background: #D61800;
-    height: 1px;
-  }
-  nav.stroke a:hover:after {
-    width: 100%;
-  }
-  
-  nav.fill a {
-    transition: all 2s;
-  }
-  
-  nav.fill a:after {
-    text-align: left;
-    content: '.';
-    margin: 0;
-    opacity: 0;
-  }
-  nav.fill a:hover {
-    color: #D61800;
-    z-index: 1;
-  }
-  nav.fill a:hover:after {
-    z-index: -10;
-    animation: fill 1s forwards;
-    -webkit-animation: fill 1s forwards;
-    -moz-animation: fill 1s forwards;
-    opacity: 1;
-  }
-  /* NAVIGATION CSS*/
+    ul {
+      position: inherit;
+      width: 100%;
+      height: 100%;
+      width: inherit;
+      height: inherit;
+      margin: 0;
+      padding: 0;
+      transform: scale(0.9);
+      transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
 
+    li {
+      display: inline-block;
+      position: absolute;
+      transform-origin: 157% 157%;
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
+      @for $i from 1 through 8 {
+        $maths: (360 / 8) * $i;
 
-  /*Footer*/
-  footer{
-    background-color: #319418;
-    color: #fff;
-    height: 100%;
+        &:nth-of-type(#{$i}) {
+          transform: rotate(#{$maths}deg);
+
+          a {
+            transform: rotate(-#{$maths}deg);
+          }
+        }
+      }
+
+      a {
+        position: relative;
+        display: inline-block;
+        color: $pink;
+        font-family: $anton;
+        background-color: $blue;
+        text-decoration: none;
+        border-radius: 100%;
+        height: 70px;
+        width: 70px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.45s ease;
+        font-size: 1.6em;
+
+        &:hover {
+          background-color: $purp;
+          color: $blue;
+        }
+      }
+    }
   }
 
+  &.is-active {
+    nav {
+      visibility: visible;
+    }
 
-  .status{
-    color: red
+    ul {
+      transform: scale(1.3);
+    }
   }
-
-  /* footer social icons */
-
-ul.social-network {
-  list-style: none;
-  display: inline;
-  margin-left: 0 !important;
-  padding: 0;
-}
-
-ul.social-network li {
-  display: inline;
-  margin: 0 5px;
-}
-
-
-/* footer social icons */
-
-.social-network a.icoFacebook:hover {
-  background-color: #3B5998;
-}
-
-.social-network a.icoInstagram:hover {
-  background-color: #CC4373;
-}
-.social-network a.icoLinkedin:hover {
-  background-color: #007bb7;
-}
-
-.social-network a.icoGithub:hover {
-  background-color: #000000;
-}
-
-
-
-.social-network a.icoFacebook:hover i,
-.social-network a.icoLinkedin:hover i,
-.social-network a.icoInstagram:hover i,
-.social-network a.icoGithub:hover i
- {
-  color: #fff;
-}
-
-.social-network a.socialIcon:hover,
-.socialHoverClass {
-  color: #44BCDD;
-}
-
-.social-circle li a {
-  display: inline-block;
-  position: relative;
-  margin: 0 auto 0 auto;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
-  text-align: center;
-  width: 30px;
-  height: 30px;
-  font-size: 15px;
-}
-
-.social-circle li i {
-  margin: 0;
-  line-height: 30px;
-  text-align: center;
-}
-
-.social-circle li a:hover i,
-.triggeredHover {
-  -moz-transform: rotate(360deg);
-  -webkit-transform: rotate(360deg);
-  -ms--transform: rotate(360deg);
-  transform: rotate(360deg);
-  -webkit-transition: all 0.2s;
-  -moz-transition: all 0.2s;
-  -o-transition: all 0.2s;
-  -ms-transition: all 0.2s;
-  transition: all 0.2s;
-}
-
-.social-circle i {
-  color: #595959;
-  -webkit-transition: all 0.8s;
-  -moz-transition: all 0.8s;
-  -o-transition: all 0.8s;
-  -ms-transition: all 0.8s;
-  transition: all 0.8s;
-}
-
-.social-network a {
-  background-color: #F9F9F9;
 }
