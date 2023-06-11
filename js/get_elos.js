@@ -1,7 +1,7 @@
     // Fetch Rapid ELO
     fetch('https://lichess.org/api/account', {
       headers: {
-        'Authorization': 'lip_NRPAb8yYMWPFjgst8u6m'
+        'Authorization': 'Bearer lip_NRPAb8yYMWPFjgst8u6m'
       }
     })
     .then(response => response.json())
@@ -14,7 +14,7 @@
     // Fetch Blitz ELO
     fetch('https://lichess.org/api/account', {
       headers: {
-        'Authorization': 'lip_NRPAb8yYMWPFjgst8u6m'
+        'Authorization': 'Bearer lip_NRPAb8yYMWPFjgst8u6m'
       }
     })
     .then(response => response.json())
