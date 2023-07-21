@@ -2,19 +2,24 @@ body * {
   box-sizing: border-box;
 }
 
+nav {
+  background-color: #BFEFFF; /* Baby blue background */
+}
+
 .container {
   width: 100%;
   height: 100vh;
-  background-color: #ff7675;
+  background-color: #BFEFFF; /* Yellow center */
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .cp-nav__button {
-  background-color: #9b59b6;
-  border: 0px;
-  appearence: none;
+  background-color: #e9e5ea;
+  border: 5px;
+  border-color: #282729;
+  appearance: none;
   border-radius: 100%;
   height: 220px;
   width: 220px;
@@ -45,7 +50,7 @@ body * {
 
 .cp-nav nav {
   visibility: visible;
-  position: absolute;
+  position: inherit;
   z-index: 5;
   width: 100%;
   height: 100%;
