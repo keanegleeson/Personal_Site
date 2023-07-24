@@ -16,7 +16,7 @@ nav {
 }
 
 .cp-nav__button {
-  background-color: #e9e5ea;
+  background-color: #974500;
   border: 5px;
   border-color: #282729;
   appearance: none;
@@ -33,6 +33,20 @@ nav {
   letter-spacing: 0.1em;
   line-height: 0.7em;
   cursor: pointer;
+}
+
+
+
+.cp-nav__button::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #0a0a0a 15%, transparent 25%);
+  background-size: 10px 10px; /* Adjust the size to control the density of dots */;
+  border-radius: 100%;
 }
 
 .cp-nav__button span {
@@ -73,7 +87,8 @@ nav {
 .cp-nav nav li {
   display: inline-block;
   position: absolute;
-  transform-origin: 157% 157%;
+  transform-origin: 258% 100%;
+  translate: -103% 79%;
   border-radius: 100%;
   display: flex;
   justify-content: center;
