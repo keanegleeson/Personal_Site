@@ -1,6 +1,7 @@
 // Fetch Running Personal Bests from Vercel serverless function
-// Note: Update this URL after deploying to Vercel
-const PB_API_URL = '/api/running-pbs';
+// UPDATE THIS URL after deploying to Vercel with your actual project URL
+// Example: 'https://your-project-name.vercel.app/api/running-pbs'
+const PB_API_URL = 'https://personal-site-api-woad.vercel.app/api/running-pbs';
 
 fetch(PB_API_URL)
   .then(response => response.json())
