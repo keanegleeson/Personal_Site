@@ -50,29 +50,8 @@ def get_garmin_pbs():
     # Fetch personal records directly from Garmin
     personal_records = client.get_personal_record()
     
-    # Parse the personal records
-    pbs = {
-        "mile": None,
-        "5k": None,
-        "10k": None,
-        "half": None,
-        "marathon": None
-    }
-    
-    # Personal records come as a list of record objects
-    for record in personal_records:
-        type_key = record.get("prTypePk", "")
-        
-        # Map Garmin's type key to our display key
-        for garmin_key, our_key in PR_TYPE_MAP.items():
-            if garmin_key in type_key.lower() or type_key.lower() in garmin_key:
-                # Get the time value (in seconds)
-                time_val = record.get("value")
-                if time_val is not None:
-                    pbs[our_key] = time_val
-                break
-    
-    return {key: format_time(val) for key, val in pbs.items()}
+    # Return raw data for debugging
+    return {"debug_raw_records": personal_records}
 
 
 class handler(BaseHTTPRequestHandler):
