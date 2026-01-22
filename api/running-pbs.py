@@ -10,13 +10,13 @@ _cache = {
     "expires_at": None
 }
 
-# Target distances in meters with tolerance
-DISTANCES = {
-    "mile": {"target": 1609.34, "tolerance": 0.05},
-    "5k": {"target": 5000, "tolerance": 0.03},
-    "10k": {"target": 10000, "tolerance": 0.03},
-    "half": {"target": 21097.5, "tolerance": 0.03},
-    "marathon": {"target": 42195, "tolerance": 0.03}
+# Mapping from Garmin's PR type keys to our display names
+PR_TYPE_MAP = {
+    "pr_mile": "mile",
+    "pr_5k": "5k",
+    "pr_10k": "10k",
+    "pr_half_marathon": "half",
+    "pr_marathon": "marathon"
 }
 
 
@@ -35,38 +35,8 @@ def format_time(seconds):
         return f"{minutes}:{secs:02d}"
 
 
-def is_within_tolerance(distance, target, tolerance):
-    """Check if distance is within tolerance of target."""
-    return abs(distance - target) / target <= tolerance
-
-
-def compute_pbs(activities):
-    """Compute personal bests from activity list."""
-    pbs = {key: None for key in DISTANCES.keys()}
-    
-    for activity in activities:
-        # Only consider running activities
-        activity_type = activity.get("activityType", {}).get("typeKey", "")
-        if "running" not in activity_type.lower() and "run" not in activity_type.lower():
-            continue
-        
-        distance = activity.get("distance", 0)  # in meters
-        duration = activity.get("duration", 0)  # in seconds
-        
-        if distance <= 0 or duration <= 0:
-            continue
-        
-        # Check each target distance
-        for key, config in DISTANCES.items():
-            if is_within_tolerance(distance, config["target"], config["tolerance"]):
-                if pbs[key] is None or duration < pbs[key]:
-                    pbs[key] = duration
-    
-    return pbs
-
-
 def get_garmin_pbs():
-    """Fetch activities from Garmin and compute PBs."""
+    """Fetch personal records directly from Garmin."""
     email = os.environ.get("GARMIN_EMAIL")
     password = os.environ.get("GARMIN_PASSWORD")
     
@@ -77,11 +47,30 @@ def get_garmin_pbs():
     client = Garmin(email, password)
     client.login()
     
-    # Fetch all running activities (up to 1000 to ensure we get history)
-    activities = client.get_activities(0, 1000)
+    # Fetch personal records directly from Garmin
+    personal_records = client.get_personal_record()
     
-    # Compute PBs
-    pbs = compute_pbs(activities)
+    # Parse the personal records
+    pbs = {
+        "mile": None,
+        "5k": None,
+        "10k": None,
+        "half": None,
+        "marathon": None
+    }
+    
+    # Personal records come as a list of record objects
+    for record in personal_records:
+        type_key = record.get("prTypePk", "")
+        
+        # Map Garmin's type key to our display key
+        for garmin_key, our_key in PR_TYPE_MAP.items():
+            if garmin_key in type_key.lower() or type_key.lower() in garmin_key:
+                # Get the time value (in seconds)
+                time_val = record.get("value")
+                if time_val is not None:
+                    pbs[our_key] = time_val
+                break
     
     return {key: format_time(val) for key, val in pbs.items()}
 
