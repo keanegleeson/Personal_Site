@@ -10,13 +10,14 @@ _cache = {
     "expires_at": None
 }
 
-# Mapping from Garmin's PR type keys to our display names
-PR_TYPE_MAP = {
-    "pr_mile": "mile",
-    "pr_5k": "5k",
-    "pr_10k": "10k",
-    "pr_half_marathon": "half",
-    "pr_marathon": "marathon"
+# Mapping from Garmin's typeId to our display names
+# Based on Garmin's PR type IDs for running
+TYPE_ID_MAP = {
+    2: "mile",      # 1 Mile
+    3: "5k",        # 5K
+    4: "10k",       # 10K
+    5: "half",      # Half Marathon
+    6: "marathon"   # Marathon
 }
 
 
@@ -50,8 +51,26 @@ def get_garmin_pbs():
     # Fetch personal records directly from Garmin
     personal_records = client.get_personal_record()
     
-    # Return raw data for debugging
-    return {"debug_raw_records": personal_records}
+    # Initialize PBs
+    pbs = {
+        "mile": None,
+        "5k": None,
+        "10k": None,
+        "half": None,
+        "marathon": None
+    }
+    
+    # Parse records by typeId
+    for record in personal_records:
+        type_id = record.get("typeId")
+        if type_id in TYPE_ID_MAP:
+            key = TYPE_ID_MAP[type_id]
+            # Value is in seconds
+            time_val = record.get("value")
+            if time_val is not None:
+                pbs[key] = time_val
+    
+    return {key: format_time(val) for key, val in pbs.items()}
 
 
 class handler(BaseHTTPRequestHandler):
