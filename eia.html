@@ -104,7 +104,12 @@
         <div id="EIA" class="row">
             <div class="col-lg">
                 <h1>Demand for California</h1>
-                <canvas id="chart" width="400" height="400" padding-bottom="100"></canvas>
+                <!-- Loading spinner (shown while fetching data) -->
+                <div id="chart-loading" style="text-align:center; padding:60px 0;">
+                    <div class="spinner"></div>
+                    <p style="margin-top:12px; color:#666;">Loading data...</p>
+                </div>
+                <canvas id="chart" width="400" height="400" padding-bottom="100" style="display:none;"></canvas>
             </div>
         </div>
         <!-- End of chart -->

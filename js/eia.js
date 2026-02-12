@@ -146,9 +146,16 @@ let currentChart = null;
 
 async function chartIt() {
     hideError();
+    var loadingEl = document.getElementById("chart-loading");
+    var canvasEl = document.getElementById("chart");
+
+    // Show spinner, hide canvas while loading
+    if (loadingEl) loadingEl.style.display = "block";
+    canvasEl.style.display = "none";
+
     try {
         const data = await getEIA();
-        const ctx = document.getElementById("chart").getContext("2d");
+        const ctx = canvasEl.getContext("2d");
 
         if (currentChart) {
             currentChart.destroy();
@@ -181,8 +188,13 @@ async function chartIt() {
                 }
             }
         });
+
+        // Data loaded — hide spinner, show chart
+        if (loadingEl) loadingEl.style.display = "none";
+        canvasEl.style.display = "block";
     } catch (err) {
         console.error("EIA API error:", err);
+        if (loadingEl) loadingEl.style.display = "none";
         showError(
             "Unable to load EIA electricity data at this time. "
             + "The page is under maintenance &mdash; please check back later."
