@@ -1,36 +1,55 @@
-// Fetch Running Personal Bests from Vercel serverless function
-// UPDATE THIS URL after deploying to Vercel with your actual project URL
-// Example: 'https://your-project-name.vercel.app/api/running-pbs'
 const PB_API_URL = 'https://personal-site-api-woad.vercel.app/api/running-pbs';
+const PB_CACHE_KEY = 'running_pbs_cache';
+
+function renderPBs(data) {
+  const fields = [
+    { id: 'milePB',     key: 'mile',     label: 'Mile' },
+    { id: 'fiveKPB',    key: '5k',       label: '5K' },
+    { id: 'tenKPB',     key: '10k',      label: '10K' },
+    { id: 'halfPB',     key: 'half',     label: 'Half' },
+    { id: 'marathonPB', key: 'marathon', label: 'Marathon' },
+  ];
+
+  fields.forEach(({ id, key, label }) => {
+    const el = document.getElementById(id);
+    if (el && data[key]) el.innerText = `${label}: ${data[key]}`;
+  });
+}
+
+function getCachedPBs() {
+  try {
+    const raw = localStorage.getItem(PB_CACHE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch { return null; }
+}
+
+function cachePBs(data) {
+  try {
+    localStorage.setItem(PB_CACHE_KEY, JSON.stringify(data));
+  } catch { /* storage full or unavailable */ }
+}
 
 fetch(PB_API_URL)
   .then(response => response.json())
   .then(data => {
-    // Populate the spans with PB data
-    if (data.mile) {
-      document.getElementById('milePB').innerText = `Mile: ${data.mile}`;
+    if (!data.cached) {
+      cachePBs(data);
     }
-    if (data['5k']) {
-      document.getElementById('fiveKPB').innerText = `5K: ${data['5k']}`;
-    }
-    if (data['10k']) {
-      document.getElementById('tenKPB').innerText = `10K: ${data['10k']}`;
-    }
-    if (data.half) {
-      document.getElementById('halfPB').innerText = `Half: ${data.half}`;
-    }
-    if (data.marathon) {
-      document.getElementById('marathonPB').innerText = `Marathon: ${data.marathon}`;
+
+    const hasRealValues = ['mile', '5k', '10k', 'half', 'marathon']
+      .some(k => data[k] && data[k] !== '--:--');
+
+    if (hasRealValues) {
+      renderPBs(data);
+    } else {
+      const cached = getCachedPBs();
+      if (cached) renderPBs(cached);
+      else        renderPBs(data);
     }
   })
-  .catch(error => {
-    console.error('Error fetching running PBs:', error);
-    // Set fallback text on error
-    const fallback = '--:--';
-    const elements = ['milePB', 'fiveKPB', 'tenKPB', 'halfPB', 'marathonPB'];
-    const labels = ['Mile', '5K', '10K', 'Half', 'Marathon'];
-    elements.forEach((id, i) => {
-      const el = document.getElementById(id);
-      if (el) el.innerText = `${labels[i]}: ${fallback}`;
-    });
+  .catch(() => {
+    const cached = getCachedPBs();
+    if (cached) {
+      renderPBs(cached);
+    }
   });

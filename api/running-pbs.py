@@ -4,20 +4,28 @@ import os
 from datetime import datetime, timedelta
 from garminconnect import Garmin
 
-# In-memory cache for PBs
+# In-memory cache for PBs (survives within a single warm instance)
 _cache = {
     "data": None,
     "expires_at": None
 }
 
-# Mapping from Garmin's typeId to our display names
-# Based on Garmin's PR type IDs for running
+# Last-known-good PB values — update these whenever you set a new PR.
+# Returned when Garmin is unreachable (rate-limited, down, etc.)
+FALLBACK_PBS = {
+    "mile": "--:--",
+    "5k": "--:--",
+    "10k": "--:--",
+    "half": "--:--",
+    "marathon": "--:--"
+}
+
 TYPE_ID_MAP = {
-    2: "mile",      # 1 Mile
-    3: "5k",        # 5K
-    4: "10k",       # 10K
-    5: "half",      # Half Marathon
-    6: "marathon"   # Marathon
+    2: "mile",
+    3: "5k",
+    4: "10k",
+    5: "half",
+    6: "marathon"
 }
 
 
@@ -99,20 +107,17 @@ class handler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps(pbs).encode())
             
         except Exception as e:
-            self.send_response(500)
+            # Garmin unreachable — serve fallback PBs so the site still shows data
+            fallback = dict(FALLBACK_PBS)
+            fallback["cached"] = True
+            fallback["error"] = str(e)
+
+            self.send_response(200)
             self.send_header("Content-Type", "application/json")
             self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "GET")
             self.end_headers()
-            
-            error_response = {
-                "error": str(e),
-                "mile": "--:--",
-                "5k": "--:--",
-                "10k": "--:--",
-                "half": "--:--",
-                "marathon": "--:--"
-            }
-            self.wfile.write(json.dumps(error_response).encode())
+            self.wfile.write(json.dumps(fallback).encode())
     
     def do_OPTIONS(self):
         """Handle CORS preflight requests."""
