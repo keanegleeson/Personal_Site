@@ -1,4 +1,8 @@
-const PB_API_URL = 'https://personal-site-api-woad.vercel.app/api/running-pbs';
+// PBs are refreshed daily by .github/workflows/update-pbs.yml, which runs
+// scripts/fetch_pbs.py and commits data/pbs.json. The frontend just reads
+// that static file — no runtime Garmin auth, no Vercel function, no rate limits.
+
+const PB_DATA_URL = 'data/pbs.json';
 const PB_CACHE_KEY = 'running_pbs_cache';
 
 function renderPBs(data) {
@@ -29,27 +33,17 @@ function cachePBs(data) {
   } catch { /* storage full or unavailable */ }
 }
 
-fetch(PB_API_URL)
-  .then(response => response.json())
+// Cache-bust so a new commit is picked up immediately instead of stale CDN cache.
+fetch(`${PB_DATA_URL}?t=${Date.now()}`, { cache: 'no-cache' })
+  .then(response => {
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return response.json();
+  })
   .then(data => {
-    if (!data.cached) {
-      cachePBs(data);
-    }
-
-    const hasRealValues = ['mile', '5k', '10k', 'half', 'marathon']
-      .some(k => data[k] && data[k] !== '--:--');
-
-    if (hasRealValues) {
-      renderPBs(data);
-    } else {
-      const cached = getCachedPBs();
-      if (cached) renderPBs(cached);
-      else        renderPBs(data);
-    }
+    cachePBs(data);
+    renderPBs(data);
   })
   .catch(() => {
     const cached = getCachedPBs();
-    if (cached) {
-      renderPBs(cached);
-    }
+    if (cached) renderPBs(cached);
   });
