@@ -13,11 +13,11 @@ _cache = {
 # Last-known-good PB values — update these whenever you set a new PR.
 # Returned when Garmin is unreachable (rate-limited, down, etc.)
 FALLBACK_PBS = {
-    "mile": "4:56",
+    "mile": "4:50",
     "5k": "16:44",
     "10k": "35:35",
     "half": "1:18:32",
-    "marathon": "3:02:00"
+    "marathon": "2:54:05"
 }
 
 TYPE_ID_MAP = {
