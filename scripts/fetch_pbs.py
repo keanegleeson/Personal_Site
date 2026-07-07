@@ -1,17 +1,25 @@
-"""Fetch running PBs from Garmin Connect and write them to data/pbs.json.
+"""Fetch running PBs from Garmin Connect and write data/pbs.json.
 
 Run by .github/workflows/update-pbs.yml on a schedule. Designed to be safe to
 re-run: if Garmin login fails (rate-limited, creds wrong, API down) we exit
 non-zero WITHOUT touching pbs.json so the site keeps the last-known-good values.
 
-Auth strategy: prefer cached OAuth tokens at ~/.garminconnect (restored from
-the Actions cache). Fall back to email+password login only when no tokens
-exist or they've expired. After a successful run we re-dump tokens so the
-next workflow run can skip the password login entirely.
+Auth strategy (tuned for GitHub Actions, where runner IPs are often rate-limited
+by Garmin's mobile login endpoint):
+
+  1. If GARMIN_TOKENS_B64 is set, decode it and write garmin_tokens.json into
+     ~/.garminconnect. This is the seed produced by scripts/bootstrap_tokens.py
+     run from your home IP.
+  2. Call client.login(token_dir). The library uses cached tokens when present
+     and only does a full password login as a last resort. Tokens auto-refresh
+     and the refreshed copy is rewritten to disk for the next run.
+  3. Refreshed tokens get persisted across workflow runs via actions/cache, so
+     a credential login from the runner basically never happens.
 """
 
 from __future__ import annotations
 
+import base64
 import json
 import os
 import sys
@@ -27,6 +35,7 @@ from garminconnect import (
 
 
 TOKEN_DIR = Path.home() / ".garminconnect"
+TOKEN_FILE = TOKEN_DIR / "garmin_tokens.json"
 OUTPUT_PATH = Path(__file__).resolve().parent.parent / "data" / "pbs.json"
 
 TYPE_ID_MAP = {
@@ -49,31 +58,36 @@ def format_time(seconds: float | None) -> str:
     return f"{minutes}:{secs:02d}"
 
 
+def seed_tokens_from_secret() -> None:
+    """If GARMIN_TOKENS_B64 is set and we have no cached tokens, materialize them."""
+    blob = os.environ.get("GARMIN_TOKENS_B64")
+    if not blob:
+        return
+    if TOKEN_FILE.exists():
+        return
+    TOKEN_DIR.mkdir(parents=True, exist_ok=True)
+    TOKEN_FILE.write_bytes(base64.b64decode(blob))
+    try:
+        os.chmod(TOKEN_FILE, 0o600)
+    except OSError:
+        pass
+    print(f"Seeded {TOKEN_FILE} from GARMIN_TOKENS_B64.")
+
+
 def get_client() -> Garmin:
-    """Return an authenticated Garmin client, preferring cached tokens."""
-    if TOKEN_DIR.exists() and any(TOKEN_DIR.iterdir()):
-        try:
-            client = Garmin()
-            client.login(str(TOKEN_DIR))
-            print("Logged in via cached tokens.")
-            return client
-        except (GarminConnectAuthenticationError, FileNotFoundError) as exc:
-            print(f"Cached tokens unusable ({exc}); falling back to password login.")
+    seed_tokens_from_secret()
 
     email = os.environ.get("GARMIN_EMAIL")
     password = os.environ.get("GARMIN_PASSWORD")
-    if not email or not password:
-        raise RuntimeError("GARMIN_EMAIL / GARMIN_PASSWORD env vars are required for first-time login.")
 
-    client = Garmin(email, password)
-    client.login()
-    TOKEN_DIR.mkdir(parents=True, exist_ok=True)
-    client.garth.dump(str(TOKEN_DIR))
-    print(f"Logged in with password and cached tokens to {TOKEN_DIR}.")
+    # Pass creds as a fallback path. If TOKEN_FILE exists and is valid, the
+    # library uses it and never hits the rate-limited mobile login endpoint.
+    client = Garmin(email=email or None, password=password or None)
+    client.login(str(TOKEN_DIR))
     return client
 
 
-def fetch_pbs(client: Garmin) -> dict[str, str | None]:
+def fetch_pbs(client: Garmin) -> dict[str, str]:
     pbs: dict[str, float | None] = {key: None for key in TYPE_ID_MAP.values()}
     for record in client.get_personal_record():
         type_id = record.get("typeId")
@@ -95,7 +109,7 @@ def main() -> int:
         print(f"Garmin error: {exc}. Leaving pbs.json untouched.")
         return 1
     except Exception as exc:
-        print(f"Unexpected error: {exc}. Leaving pbs.json untouched.")
+        print(f"Unexpected error ({type(exc).__name__}): {exc}. Leaving pbs.json untouched.")
         return 1
 
     payload = {

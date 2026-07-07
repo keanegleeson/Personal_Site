@@ -42,8 +42,13 @@ jobs:
 
       - name: Fetch PBs from Garmin
         env:
+          # Email/password are kept as a last-resort fallback. The real auth
+          # path uses GARMIN_TOKENS_B64 (seeded once via scripts/bootstrap_tokens.py)
+          # because GitHub-hosted runner IPs are aggressively rate-limited by
+          # Garmin's mobile login endpoint.
           GARMIN_EMAIL: ${{ secrets.GARMIN_EMAIL }}
           GARMIN_PASSWORD: ${{ secrets.GARMIN_PASSWORD }}
+          GARMIN_TOKENS_B64: ${{ secrets.GARMIN_TOKENS_B64 }}
         run: python scripts/fetch_pbs.py
 
       # Re-save the cache every run so refreshed OAuth2 tokens persist. The
