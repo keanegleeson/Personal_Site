@@ -14,8 +14,8 @@ _cache = {
 # Returned when Garmin is unreachable (rate-limited, down, etc.)
 FALLBACK_PBS = {
     "mile": "4:50",
-    "5k": "16:44",
-    "10k": "35:35",
+    "5k": "16:37",
+    "10k": "35:12",
     "half": "1:18:32",
     "marathon": "2:54:05"
 }
