@@ -20,6 +20,7 @@ by Garmin's mobile login endpoint):
 from __future__ import annotations
 
 import base64
+import hashlib
 import json
 import os
 import sys
@@ -36,6 +37,7 @@ from garminconnect import (
 
 TOKEN_DIR = Path.home() / ".garminconnect"
 TOKEN_FILE = TOKEN_DIR / "garmin_tokens.json"
+SEED_HASH_FILE = TOKEN_DIR / "seed.sha256"
 OUTPUT_PATH = Path(__file__).resolve().parent.parent / "data" / "pbs.json"
 
 TYPE_ID_MAP = {
@@ -59,14 +61,19 @@ def format_time(seconds: float | None) -> str:
 
 
 def seed_tokens_from_secret() -> None:
-    """If GARMIN_TOKENS_B64 is set and we have no cached tokens, materialize them."""
+    """Materialize GARMIN_TOKENS_B64 if there are no cached tokens, or if the
+    secret has been re-seeded since the cache was written (the cached copy is
+    then stale and would mask the new secret)."""
     blob = os.environ.get("GARMIN_TOKENS_B64")
     if not blob:
         return
-    if TOKEN_FILE.exists():
-        return
+    secret_hash = hashlib.sha256(blob.encode()).hexdigest()
+    if TOKEN_FILE.exists() and SEED_HASH_FILE.exists():
+        if SEED_HASH_FILE.read_text().strip() == secret_hash:
+            return
     TOKEN_DIR.mkdir(parents=True, exist_ok=True)
     TOKEN_FILE.write_bytes(base64.b64decode(blob))
+    SEED_HASH_FILE.write_text(secret_hash)
     try:
         os.chmod(TOKEN_FILE, 0o600)
     except OSError:
